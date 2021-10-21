@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>防抖函数</title>
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+</head>
+<body>
+<div id="content" style="height:150px;line-height:150px;text-align:center; color: #fff;background-color:#ccc;font-size:80px;"></div>
+
+<script>
+    let num = 1;
+    let content = document.getElementById('content');
+    function count() {
+        content.innerHTML = num++;
+    }
+
+    // content.onmousemove = count;
+
+    // 非立即执行版 在鼠标静止后执行函数
+    function debounce(func, wait) {
+        // 这里的this是指window
+        console.log(this)
+        let timer;
+        return function() {
+            // 这里的this是指content
+            console.log(this)
+            let context = this; // 注意this指向
+            let args = arguments; // arguments中存着e
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                func.apply(context, args)
+            }, wait)
+        }
+    }
+    $('#content').on('onmousemove', e => {
+        console.log(111);
+    })
+    // content.onmousemove = debounce(count,1000);
+</script>
+</body>
+</html>
